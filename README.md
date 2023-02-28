@@ -15,7 +15,7 @@
 ## Front-end application
 
 ## contributor
-[HungKungE](https://github.com/HungKungE)
-[khw3754](https://github.com/khw3754)
-[Geun Seong Lee](https://github.com/LEEGURTS)
-[mingeun2154](https://mingeun2154.github.io)
+[HungKungE](https://github.com/HungKungE)    
+[khw3754](https://github.com/khw3754)     
+[Geun Seong Lee](https://github.com/LEEGURTS)    
+[mingeun2154](https://mingeun2154.github.io)    
