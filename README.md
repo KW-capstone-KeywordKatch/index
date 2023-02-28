@@ -6,11 +6,11 @@
 
 <img src="/image/component-diagram.jpeg" alt="component-diagram">
 
-### user component
+* [user component](https://github.com/KW-capstone-KeywordKatch/user-management#%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A6%AC-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8)
 
-### editor component
+* [editor component](#)
 
-### publisher component
+* [publisher component](#)
 
 ## Front-end application
 
