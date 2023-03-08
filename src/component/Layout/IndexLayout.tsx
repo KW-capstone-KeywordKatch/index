@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import useVH from "react-viewport-height";
-import TeamInfo from "../Index/TeamInfo/TeamInfo";
-import IndexToolbar from "../Index/Toolbar/IndexToolbar";
+import TeamInfo from "../Index/IndexFooter/IndexFooter";
+import IndexToolbar from "../Index/GlobalNavigationBar/GlobalNavigationBar";
 
 interface IndexLayoutProps {
   children: ReactNode;

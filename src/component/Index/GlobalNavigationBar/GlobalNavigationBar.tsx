@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import LogoSvg from "../../Icon/Svg/LogoSvg";
 import MenuSvg from "../../Icon/Svg/MenuSvg";
 
-const IndexToolbar: React.FunctionComponent = () => {
+const GlobalNavigationBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
 
   return (
@@ -28,4 +28,4 @@ const IndexToolbar: React.FunctionComponent = () => {
   );
 };
 
-export default IndexToolbar;
+export default GlobalNavigationBar;
