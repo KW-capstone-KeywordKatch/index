@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import LogoSvg from "../../Icon/Svg/LogoSvg";
-import MenuSvg from "../../Icon/Svg/MenuSvg";
+import LogoSvg from "../Icon/Svg/LogoSvg";
+import MenuSvg from "../Icon/Svg/MenuSvg";
 
 const GlobalNavigationBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
