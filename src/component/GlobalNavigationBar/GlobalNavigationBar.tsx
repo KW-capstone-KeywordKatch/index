@@ -1,30 +1,53 @@
+import GridLayout from "./../Layout/GridLayout";
 import { useNavigate } from "react-router-dom";
-import LogoSvg from "../Icon/Svg/LogoSvg";
+import { useEffect } from "react";
+import { useState } from "react";
+import { throttle } from "lodash";
+import LogoSvg from "./../Icon/Svg/LogoSvg";
 import MenuSvg from "../Icon/Svg/MenuSvg";
 
 const GlobalNavigationBar: React.FunctionComponent = () => {
+  const [headerHeight, setHeaderHeight] = useState(0);
   const navigate = useNavigate();
+  const handleWheel = (e: WheelEvent) => {
+    if (!window.scrollY) {
+      return;
+    }
 
+    if (e.deltaY > 0) {
+      setHeaderHeight(64);
+    } else {
+      setHeaderHeight(0);
+    }
+  };
+  const throttleHandle = throttle(handleWheel, 300);
+  useEffect(() => {
+    document.addEventListener("wheel", throttleHandle);
+    return () => document.removeEventListener("wheel", throttleHandle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <div
-      className="fixed top-0 w-full flex justify-center"
-      style={{ boxShadow: "0px 4px 10px 2px rgba(0, 0, 0, 0.25)" }}
+    <nav
+      className="fixed z-50 w-full h-[64px] bg-white flex items-center justify-center text-[0.875em] whitespace-pre origin-top duration-400"
+      style={{
+        transition: "0.4s ease",
+        transform: `translateY(-${headerHeight}px)`,
+        boxShadow: headerHeight ? "" : "0px 5px 5px rgba(0, 0, 0, 0.12)",
+      }}
     >
-      <div className="w-[1200px] h-[80px] flex items-center relative">
-        <LogoSvg
-          className="absolute left-0 cursor-pointer"
-          onClick={() => {
-            navigate("/");
-          }}
-        ></LogoSvg>
-        <div className="absolute right-0 flex flex-row gap-[20px] justify-items-center items-center">
-          <p className="cursor-pointer">SIGN IN</p>
-          <p className="cursor-pointer">SIGN UP</p>
-          <p className="cursor-pointer">CONTRACT</p>
-          <MenuSvg></MenuSvg>
+      <GridLayout>
+        <button className="justify-self-start" onClick={() => navigate("/")}>
+          <LogoSvg />
+        </button>
+
+        <div className="col-start-12 justify-self-end w-[300px] flex items-center justify-between font-bold">
+          <button onClick={() => navigate("/signin")}>SIGN IN</button>
+          <button onClick={() => navigate("/signup")}>SIGN UP</button>
+          <button onClick={() => navigate("/contact")}>CONTACT</button>
+          <MenuSvg />
         </div>
-      </div>
-    </div>
+      </GridLayout>
+    </nav>
   );
 };
 
