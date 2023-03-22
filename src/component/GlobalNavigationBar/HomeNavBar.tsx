@@ -23,8 +23,8 @@ const HomeNavBar: React.FunctionComponent = () => {
       <div className="flex flex-col items-center">
         <SearchSvg
           className="my-[0.7em] cursor-pointer"
-          fill={location === "keyword" ? "black" : "#707070"}
-          onClick={() => navigate("keyword")}
+          fill={location === "search" ? "black" : "#707070"}
+          onClick={() => navigate("search")}
         />
         <TrendSvg
           className="my-[0.7em] cursor-pointer"
@@ -38,8 +38,8 @@ const HomeNavBar: React.FunctionComponent = () => {
         />
         <ListSvg
           className="my-[0.7em] cursor-pointer"
-          fill={location === "list" ? "black" : "#707070"}
-          onClick={() => navigate("list")}
+          fill={location === "keyword" ? "black" : "#707070"}
+          onClick={() => navigate("keyword")}
         />
         <OptionSvg
           className="my-[0.7em] cursor-pointer"
