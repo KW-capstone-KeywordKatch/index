@@ -17,14 +17,14 @@ const MenuSvg: React.FunctionComponent<MenuSvgProps> = ({ className = "" }) => {
         x2="15"
         y2="1.20001"
         stroke="#101010"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <line
         y1="6.40002"
         x2="15"
         y2="6.40002"
         stroke="#101010"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <line
         x1="7"
@@ -32,7 +32,7 @@ const MenuSvg: React.FunctionComponent<MenuSvgProps> = ({ className = "" }) => {
         x2="15"
         y2="11.6"
         stroke="#101010"
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   );

@@ -1,11 +1,12 @@
+import GlobalNavigationBar from "../component/GlobalNavigationBar/GlobalNavigationBar";
 import Index from "../component/Index/Index";
-import IndexLayout from "../component/Layout/IndexLayout";
 
 const IndexPage: React.FunctionComponent = () => {
   return (
-    <IndexLayout>
+    <>
+      <GlobalNavigationBar />
       <Index />
-    </IndexLayout>
+    </>
   );
 };
 
