@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const LoginItems: React.FunctionComponent = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="relative col-start-1 col-end-5 top-[20vh] flex flex-col text-black">
@@ -16,7 +19,10 @@ const LoginItems: React.FunctionComponent = () => {
             <button>아이디 찾기</button>
             <button className="ml-[1em]">비밀번호 찾기</button>
           </div>
-          <button className="rounded-[10px] font-bold text-white bg-black px-4 py-2">
+          <button
+            className="rounded-[10px] font-bold text-white bg-black px-4 py-2"
+            onClick={() => navigate("/home/search")}
+          >
             로그인
           </button>
         </div>
