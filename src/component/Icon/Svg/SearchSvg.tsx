@@ -1,7 +1,7 @@
 interface SearchSvgProps {
   className?: string;
   onClick?: () => void;
-  fill: string;
+  fill?: string;
 }
 
 const SearchSvg: React.FunctionComponent<SearchSvgProps> = ({
