@@ -1,26 +1,53 @@
+/* eslint-disable no-useless-escape */
+import axios from "axios";
+import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "../Layout/GridLayout";
+import { useState } from "react";
+import { remove } from "lodash";
 
 const HomeKeyword: React.FunctionComponent = () => {
-  const testItem = [
-    {
-      title: "2월 외국인 국내주식 1조2000억 순매수…5개월째 '사자'",
-      press: "NEWSIS",
-      content:
-        "[서울=뉴시스]우연수 기자 = 외국인이 국내 주식시장에서 지난달까지 5개월째 순매수를 이어갔다.9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 유가증권시장에서는 5350억원을, 코스닥 시장에서 6340억원을 사들였다. 지난달 말 기준 보유 상장 주식은 635조1000억원으로 집계됐다. 전체 시가총액의 26.7% 수준이다. 지역별로 유럽(2조4000억원)과 미주(1000억원) 지역 등에서 순매수했으며, 아시아(1조5000억원)와 중동(2000억원) 지역은 순매도했다.",
-    },
-    {
-      title: "2월 외국인 국내주식 1조2000억 순매수…5개월째 '사자'",
-      press: "NEWSIS",
-      content:
-        "[서울=뉴시스]우연수 기자 = 외국인이 국내 주식시장에서 지난달까지 5개월째 순매수를 이어갔다.9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 유가증권시장에서는 5350억원을, 코스닥 시장에서 6340억원을 사들였다. 지난달 말 기준 보유 상장 주식은 635조1000억원으로 집계됐다. 전체 시가총액의 26.7% 수준이다. 지역별로 유럽(2조4000억원)과 미주(1000억원) 지역 등에서 순매수했으며, 아시아(1조5000억원)와 중동(2000억원) 지역은 순매도했다.",
-    },
-    {
-      title: "2월 외국인 국내주식 1조2000억 순매수…5개월째 '사자'",
-      press: "NEWSIS",
-      content:
-        "[서울=뉴시스]우연수 기자 = 외국인이 국내 주식시장에서 지난달까지 5개월째 순매수를 이어갔다.9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 9일 금융감독원에 따르면 외국인은 지난달 국내 상장 주식을 1조1690억원 순매수했다. 유가증권시장에서는 5350억원을, 코스닥 시장에서 6340억원을 사들였다. 지난달 말 기준 보유 상장 주식은 635조1000억원으로 집계됐다. 전체 시가총액의 26.7% 수준이다. 지역별로 유럽(2조4000억원)과 미주(1000억원) 지역 등에서 순매수했으며, 아시아(1조5000억원)와 중동(2000억원) 지역은 순매도했다.",
-    },
-  ];
+  const [keyWord, setKeyWord] = useState<string>("");
+  const userInfo = useUserInfo();
+
+  const patchKeyword = (keyWordList: string[]) => {
+    if (userInfo.interests.includes(keyWord)) {
+      alert("이미 추가된 키워드입니다.");
+      setKeyWord("");
+      return;
+    }
+    if (
+      keyWord.search(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g) >= 0
+    ) {
+      alert("특수문자는 입력할 수 없습니다.");
+      setKeyWord("");
+      return;
+    }
+    if (keyWord.search(/\s/) >= 0) {
+      alert("공백은 입력할 수 없습니다.");
+      setKeyWord("");
+      return;
+    }
+    axios
+      .patch(
+        "/user/interest",
+        {
+          user_id: userInfo.userId,
+          interest: keyWordList,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        if (res.data.code === 1000) {
+          userInfo.setInterests(keyWordList);
+          setKeyWord("");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <main className="relative ml-[60px] top-[4em]">
       <GridLayout>
@@ -31,25 +58,68 @@ const HomeKeyword: React.FunctionComponent = () => {
           </p>
         </div>
         <input
+          value={keyWord}
           placeholder="키워드를 입력하세요."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              if (keyWord.length === 0) {
+                alert("키워드를 입력해주세요.");
+                return;
+              }
+              patchKeyword([...userInfo.interests, keyWord]);
+            }
+          }}
+          onChange={(e) => {
+            setKeyWord(e.target.value);
+          }}
           className="my-[2em] px-4 py-2 outline-0 border rounded-[10px] col-start-1 col-end-7 w-full"
         ></input>
-        {testItem.map((item, idx) => (
-          <div key={idx} className="col-start-1 col-end-13 w-full ">
-            <p className="font-bold text-[1.5em]">{item.title}</p>
-            <p className="text-[#767676] text-[0.8em]">{item.press}</p>
-            <p
-              className="text-[#767676] text-[0.8em] w-full overflow-hidden "
-              style={{
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                display: "-webkit-box",
-              }}
-            >
-              {item.content}
-            </p>
+        <div className="border col-start-1 col-end-13 lg:col-end-7 bg-white ">
+          <div className="bg-black w-full p-4 text-white ">선택한 키워드</div>
+          <div className="p-4">
+            {userInfo.interests.map((item, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between my-2"
+                >
+                  {item}
+                  <div className="flex flex-row items-center ">
+                    <button
+                      onClick={() => {
+                        if (keyWord.length === 0) {
+                          alert("키워드를 입력해주세요.");
+                          return;
+                        }
+                        patchKeyword(
+                          userInfo.interests.map((interest, index) => {
+                            if (index === idx) {
+                              return keyWord;
+                            }
+                            return interest;
+                          })
+                        );
+                      }}
+                      className="border mr-2 border-[#767676] px-1 py-0.5 rounded-[5px] text-[0.8em]"
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() =>
+                        patchKeyword([
+                          ...remove(userInfo.interests, (n) => n !== item),
+                        ])
+                      }
+                      className="border border-[#767676] px-1 py-0.5 rounded-[5px] text-[0.8em]"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        ))}
+        </div>
       </GridLayout>
     </main>
   );

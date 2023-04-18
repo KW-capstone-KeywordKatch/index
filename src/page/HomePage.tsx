@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import HomeTrend from "../component/Home/HomeTrend";
 import HomeFollow from "../component/Home/HomeFollow";
 
+import HomeOption from "../component/Home/HomeOption";
+
 const HomePage: React.FunctionComponent = () => {
   return (
     <>
@@ -12,6 +14,7 @@ const HomePage: React.FunctionComponent = () => {
         <Route path="/search" element={<HomeKeyword />} />
         <Route path="/trend" element={<HomeTrend />} />
         <Route path="/follow" element={<HomeFollow />} />
+        <Route path="/option" element={<HomeOption />} />
       </Routes>
     </>
   );

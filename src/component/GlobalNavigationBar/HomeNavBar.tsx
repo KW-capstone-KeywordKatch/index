@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const HomeNavBar: React.FunctionComponent = () => {
   const vh = useVH();
   const navigate = useNavigate();
-  const location = useLocation().pathname.split("/")[2];
+  const location = useLocation().pathname.split("/")[1];
   return (
     <nav
       className="fixed w-[60px] drop-shadow-xl bg-white flex flex-col items-center justify-between p-4"
