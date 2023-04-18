@@ -3,13 +3,16 @@ import useVH from "react-viewport-height";
 import SignInFooter from "../Footer/SignInFooter";
 import { useState } from "react";
 import checkEmail from "../CheckUserInfo/checkEmail";
-import checkID from "../CheckUserInfo/checkID";
 import checkPassword from "../CheckUserInfo/checkPassword";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FunctionComponent = () => {
   const vh = useVH();
+
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
-    id: "",
+    nickName: "",
     password: "",
     email: "",
     vaildPassword: "",
@@ -20,12 +23,24 @@ const SignUp: React.FunctionComponent = () => {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    if (
-      checkEmail(userInfo.email) &&
-      checkID(userInfo.id) &&
-      checkPassword(userInfo.password)
-    ) {
-      alert("회원가입이 완료되었습니다.");
+    if (checkEmail(userInfo.email) && checkPassword(userInfo.password)) {
+      axios
+        .post(
+          "/user/signup",
+          {
+            email: userInfo.email,
+            nickname: userInfo.nickName,
+            password: userInfo.password,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          alert("회원가입이 완료되었습니다!");
+          navigate("/signin");
+        })
+        .catch((err) => {
+          alert(err);
+        });
     }
   };
 
@@ -46,12 +61,12 @@ const SignUp: React.FunctionComponent = () => {
             setUserInfo({ ...userInfo, email: e.target.value });
           }}
         ></input>
-        <div className="col-start-3 col-end-5">아이디</div>
+        <div className="col-start-3 col-end-5">닉네임</div>
         <input
           className="col-start-5 col-end-9 outline-0 rounded-[10px] border p-4 w-full"
-          value={userInfo.id}
+          value={userInfo.nickName}
           onChange={(e) => {
-            setUserInfo({ ...userInfo, id: e.target.value });
+            setUserInfo({ ...userInfo, nickName: e.target.value });
           }}
         ></input>
         <div className="col-start-3 col-end-5">비밀번호</div>
@@ -82,7 +97,7 @@ const SignUp: React.FunctionComponent = () => {
               className="border font-bold w-full mr-[20px] px-4 py-2 rounded-[15px]"
               onClick={() =>
                 setUserInfo({
-                  id: "",
+                  nickName: "",
                   password: "",
                   email: "",
                   vaildPassword: "",

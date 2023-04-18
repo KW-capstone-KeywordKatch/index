@@ -1,6 +1,10 @@
+import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "./../Layout/GridLayout";
 
 const HomeFollow: React.FunctionComponent = () => {
+  const userInfo = useUserInfo();
+
+  console.log(userInfo);
   const testItem = [
     {
       title: "폭스바겐, 전기차 ID.3 부분변경 공개…국내 출시 미정",
