@@ -4,6 +4,7 @@ import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "../Layout/GridLayout";
 import { useState } from "react";
 import { remove } from "lodash";
+import PROXY from "../../State/proxy";
 
 const HomeKeyword: React.FunctionComponent = () => {
   const [keyWord, setKeyWord] = useState<string>("");
@@ -29,7 +30,7 @@ const HomeKeyword: React.FunctionComponent = () => {
     }
     axios
       .patch(
-        "/user/interest",
+        `${PROXY}/user/interest`,
         {
           user_id: userInfo.userId,
           interest: keyWordList,
