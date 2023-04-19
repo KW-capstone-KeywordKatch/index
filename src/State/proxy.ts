@@ -1,3 +1,4 @@
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
+const getProxy = (path = "/proxy") =>
+  window.location.hostname === "localhost" ? "" : `${path}`;
 
-export default PROXY;
+export default getProxy;

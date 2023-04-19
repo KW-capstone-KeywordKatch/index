@@ -4,12 +4,12 @@ import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "../Layout/GridLayout";
 import { useState } from "react";
 import { remove } from "lodash";
-import PROXY from "../../State/proxy";
+import getProxy from "../../State/proxy";
 
 const HomeKeyword: React.FunctionComponent = () => {
   const [keyWord, setKeyWord] = useState<string>("");
   const userInfo = useUserInfo();
-
+  const URL = `${getProxy()}/user/interest`;
   const patchKeyword = (keyWordList: string[]) => {
     if (userInfo.interests.includes(keyWord)) {
       alert("이미 추가된 키워드입니다.");
@@ -30,7 +30,7 @@ const HomeKeyword: React.FunctionComponent = () => {
     }
     axios
       .patch(
-        `${PROXY}/user/interest`,
+        URL,
         {
           user_id: userInfo.userId,
           interest: keyWordList,

@@ -4,20 +4,20 @@ import checkPassword from "../CheckUserInfo/checkPassword";
 import axios from "axios";
 import checkEmail from "../CheckUserInfo/checkEmail";
 import { useUserInfo } from "../../State/UserInfo";
-import PROXY from "../../State/proxy";
+import getProxy from "../../State/proxy";
 
 const LoginItems: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const getUserInfo = useRef({ email: "", password: "" });
   const userInfo = useUserInfo();
-
+  const URL = `${getProxy()}/auth/signin`;
   const submitUserInfo = () => {
     if (
       checkEmail(getUserInfo.current.email) &&
       checkPassword(getUserInfo.current.password)
     ) {
       axios
-        .post(`${PROXY}/auth/signin`, {
+        .post(URL, {
           email: getUserInfo.current.email,
           password: getUserInfo.current.password,
         })
@@ -29,7 +29,7 @@ const LoginItems: React.FunctionComponent = () => {
             userInfo.setIsLoggined(true);
             userInfo.setUserId(res.data.payload.user_id);
             userInfo.setInterests(res.data.payload.interests);
-            navigate("/search");
+            navigate("/");
           } else if (res.data.code === 2002) {
             alert("가입되지 않은 이메일 입니다.");
           } else if (res.data.code === 2003) {

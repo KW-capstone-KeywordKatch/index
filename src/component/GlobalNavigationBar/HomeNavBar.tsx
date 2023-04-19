@@ -24,27 +24,27 @@ const HomeNavBar: React.FunctionComponent = () => {
         <SearchSvg
           className="my-[0.7em] cursor-pointer"
           fill={location === "" ? "black" : "#707070"}
-          onClick={() => navigate("")}
+          onClick={() => navigate("/")}
         />
         <TrendSvg
           className="my-[0.7em] cursor-pointer"
           fill={location === "trend" ? "black" : "#707070"}
-          onClick={() => navigate("trend")}
+          onClick={() => navigate("/trend")}
         />
         <FollowSvg
           className="my-[0.7em] cursor-pointer"
           fill={location === "follow" ? "black" : "#707070"}
-          onClick={() => navigate("follow")}
+          onClick={() => navigate("/follow")}
         />
         <ListSvg
           className="my-[0.7em] cursor-pointer"
           fill={location === "keyword" ? "black" : "#707070"}
-          onClick={() => navigate("keyword")}
+          onClick={() => navigate("/keyword")}
         />
         <OptionSvg
           className="my-[0.7em] cursor-pointer"
           fill={location === "option" ? "black" : "#707070"}
-          onClick={() => navigate("option")}
+          onClick={() => navigate("/option")}
         />
       </div>
       <div className="bg-black w-[100%] aspect-square rounded-full"></div>

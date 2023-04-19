@@ -52,6 +52,5 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "tailwindcss": "^3.2.7"
-  },
-  "proxy": "http://54.180.152.95:8080"
+  }
 }
