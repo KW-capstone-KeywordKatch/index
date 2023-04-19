@@ -11,7 +11,7 @@ const GridLayout: React.FunctionComponent<GridLayoutProps> = ({
     <div className="w-full flex justify-center">
       <div
         className={
-          "w-full max-w-maxwidth grid grid-cols-12 top-[64px] grid-cols-12 gap-[20px] px-[40px] " +
+          "w-full max-w-maxwidth grid top-[64px] grid-cols-12 gap-[20px] px-[40px] " +
           className
         }
       >
