@@ -16,8 +16,14 @@ const App: React.FunctionComponent = () => {
             path="/*"
             element={userInfo.isLoggined ? <HomePage /> : <IndexPage />}
           />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route
+            path="/signin"
+            element={userInfo.isLoggined ? <HomePage /> : <SignInPage />}
+          />
+          <Route
+            path="/signup"
+            element={userInfo.isLoggined ? <HomePage /> : <SignUpPage />}
+          />
         </Routes>
       </Suspense>
     </div>

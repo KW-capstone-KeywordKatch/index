@@ -6,11 +6,11 @@ import checkEmail from "../CheckUserInfo/checkEmail";
 import checkPassword from "../CheckUserInfo/checkPassword";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PROXY from "../../State/proxy";
+import getProxy from "../../State/proxy";
 
 const SignUp: React.FunctionComponent = () => {
   const vh = useVH();
-
+  const URL = `${getProxy()}/user/signup`;
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     nickName: "",
@@ -27,7 +27,7 @@ const SignUp: React.FunctionComponent = () => {
     if (checkEmail(userInfo.email) && checkPassword(userInfo.password)) {
       axios
         .post(
-          `${PROXY}/user/signup`,
+          URL,
           {
             email: userInfo.email,
             nickname: userInfo.nickName,
