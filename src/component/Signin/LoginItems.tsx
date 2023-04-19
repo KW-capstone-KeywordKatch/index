@@ -4,11 +4,11 @@ import checkPassword from "../CheckUserInfo/checkPassword";
 import axios from "axios";
 import checkEmail from "../CheckUserInfo/checkEmail";
 import { useUserInfo } from "../../State/UserInfo";
+import PROXY from "../../State/proxy";
 
 const LoginItems: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const getUserInfo = useRef({ email: "", password: "" });
-
   const userInfo = useUserInfo();
 
   const submitUserInfo = () => {
@@ -17,7 +17,7 @@ const LoginItems: React.FunctionComponent = () => {
       checkPassword(getUserInfo.current.password)
     ) {
       axios
-        .post("/auth/signin", {
+        .post(`${PROXY}/auth/signin`, {
           email: getUserInfo.current.email,
           password: getUserInfo.current.password,
         })

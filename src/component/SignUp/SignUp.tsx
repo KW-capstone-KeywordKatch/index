@@ -6,6 +6,7 @@ import checkEmail from "../CheckUserInfo/checkEmail";
 import checkPassword from "../CheckUserInfo/checkPassword";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PROXY from "../../State/proxy";
 
 const SignUp: React.FunctionComponent = () => {
   const vh = useVH();
@@ -26,7 +27,7 @@ const SignUp: React.FunctionComponent = () => {
     if (checkEmail(userInfo.email) && checkPassword(userInfo.password)) {
       axios
         .post(
-          "/user/signup",
+          `${PROXY}/user/signup`,
           {
             email: userInfo.email,
             nickname: userInfo.nickName,
