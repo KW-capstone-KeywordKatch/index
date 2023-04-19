@@ -1,5 +1,10 @@
 [[redirects]]
-    from = "/proxy/*"
-    to = "http://54.180.152.95:8080/:splat"
-    status = 200
-    force = true
+  from = "/proxy/*"
+  to = "http://54.180.152.95:8080/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
