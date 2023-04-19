@@ -17,14 +17,14 @@ const HomeNavBar: React.FunctionComponent = () => {
         height: 100 * vh,
       }}
     >
-      <div className="cursor-pointer" onClick={() => navigate("/home/keyword")}>
+      <div className="cursor-pointer" onClick={() => navigate("")}>
         Logo
       </div>
       <div className="flex flex-col items-center">
         <SearchSvg
           className="my-[0.7em] cursor-pointer"
-          fill={location === "search" ? "black" : "#707070"}
-          onClick={() => navigate("search")}
+          fill={location === "" ? "black" : "#707070"}
+          onClick={() => navigate("")}
         />
         <TrendSvg
           className="my-[0.7em] cursor-pointer"

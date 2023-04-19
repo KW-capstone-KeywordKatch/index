@@ -11,7 +11,7 @@ const HomePage: React.FunctionComponent = () => {
     <>
       <HomeNavBar />
       <Routes>
-        <Route path="/search" element={<HomeKeyword />} />
+        <Route path="/" element={<HomeKeyword />} />
         <Route path="/trend" element={<HomeTrend />} />
         <Route path="/follow" element={<HomeFollow />} />
         <Route path="/option" element={<HomeOption />} />
