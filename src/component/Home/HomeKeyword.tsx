@@ -10,6 +10,7 @@ const HomeKeyword: React.FunctionComponent = () => {
   const [keyWord, setKeyWord] = useState<string>("");
   const userInfo = useUserInfo();
   const URL = `${getProxy()}/user/interest`;
+
   const patchKeyword = (keyWordList: string[]) => {
     if (userInfo.interests.includes(keyWord)) {
       alert("이미 추가된 키워드입니다.");

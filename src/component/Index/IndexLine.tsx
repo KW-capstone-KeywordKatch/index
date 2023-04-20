@@ -1,13 +1,33 @@
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+
 const IndexLine: React.FunctionComponent = () => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["30vw", "-70vw"]);
+  const x2 = useTransform(scrollYProgress, [0, 1], ["-70vw", "30vw"]);
   return (
-    <>
-      <div className="mt-[1em] col-start-1 col-end-13 w-screen overflow-visible text-[4em] whitespace-nowrap font-bold opacity-60">
+    <div ref={containerRef} className="my-[2em] text-[4em]">
+      <motion.div
+        style={{
+          x: x,
+        }}
+        className="w-screen overflow-hidden whitespace-nowrap font-bold opacity-60"
+      >
         KATCH ABOUT NEWS KATCH ABOUT NEWS KATCH ABOUT NEWS
-      </div>
-      <div className="relative bottom-[1em] col-start-12 justify-self-end w-screen flex flex-row-reverse overflow-visible text-[4em] whitespace-nowrap font-bold  opacity-30">
+      </motion.div>
+      <motion.div
+        style={{
+          x: x2,
+        }}
+        className="w-screen overflow-hidden whitespace-nowrap font-bold opacity-30"
+      >
         KATCH ABOUT NEWS KATCH ABOUT NEWS KATCH ABOUT NEWS
-      </div>
-    </>
+      </motion.div>
+    </div>
   );
 };
 

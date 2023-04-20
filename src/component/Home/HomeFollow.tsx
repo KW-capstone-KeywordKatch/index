@@ -51,7 +51,7 @@ const HomeFollow: React.FunctionComponent = () => {
               <p
                 className="text-[#767676] text-[0.8em] w-full overflow-hidden "
                 style={{
-                  WebkitLineClamp: 8,
+                  WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",
                   display: "-webkit-box",
                 }}

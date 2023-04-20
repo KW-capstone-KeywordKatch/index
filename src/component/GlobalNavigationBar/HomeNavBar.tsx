@@ -5,6 +5,7 @@ import OptionSvg from "../Icon/Svg/OptionSvg";
 import SearchSvg from "../Icon/Svg/SearchSvg";
 import TrendSvg from "../Icon/Svg/TrendSvg";
 import { useLocation, useNavigate } from "react-router-dom";
+import LogoSvg from "../Icon/Svg/LogoSvg";
 
 const HomeNavBar: React.FunctionComponent = () => {
   const vh = useVH();
@@ -17,9 +18,7 @@ const HomeNavBar: React.FunctionComponent = () => {
         height: 100 * vh,
       }}
     >
-      <div className="cursor-pointer" onClick={() => navigate("")}>
-        Logo
-      </div>
+      <LogoSvg className="cursor-pointer" onClick={() => navigate("")} />
       <div className="flex flex-col items-center">
         <SearchSvg
           className="my-[0.7em] cursor-pointer"

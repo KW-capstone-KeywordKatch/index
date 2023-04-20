@@ -5,6 +5,12 @@
   force = true
 
 [[redirects]]
+  from = "/test/*"
+  to = "http://13.209.7.194:8000/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
