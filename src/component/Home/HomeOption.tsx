@@ -19,6 +19,8 @@ const HomeOption: React.FunctionComponent = () => {
       .then((res) => {
         if (res.data.code === 1) {
           setNewsList(res.data.payload);
+        } else {
+          setNewsList([]);
         }
       })
       .catch((err) => {
@@ -53,11 +55,15 @@ const HomeOption: React.FunctionComponent = () => {
               }
             }}
           ></input>
-          {newsList.map((news, idx) => (
-            <a href={news.link} key={idx} className="my-[0.5em] font-bold">
-              {news.title}
-            </a>
-          ))}
+          {newsList.length > 0 ? (
+            newsList.map((news, idx) => (
+              <a href={news.link} key={idx} className="my-[0.5em] font-bold">
+                {news.title}
+              </a>
+            ))
+          ) : (
+            <div>뉴스가 없습니다.</div>
+          )}
         </div>
       </GridLayout>
     </main>
