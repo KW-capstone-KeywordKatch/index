@@ -14,4 +14,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    createProxyMiddleware("/prototype", {
+      target: "http://13.209.7.194:8000",
+      changeOrigin: true,
+    })
+  );
 };
