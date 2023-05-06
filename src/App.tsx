@@ -4,6 +4,7 @@ import HomePage from "./page/HomePage";
 import SignInPage from "./page/SignInPage";
 import SignUpPage from "./page/SignUpPage";
 import { useUserInfo } from "./State/UserInfo";
+import ProtectRoute from "./component/ProtectRoute/ProtectRoute";
 
 const App: React.FunctionComponent = () => {
   const IndexPage = lazy(() => import("./page/IndexPage"));
@@ -13,17 +14,15 @@ const App: React.FunctionComponent = () => {
       <Suspense fallback={<>로딩중...</>}>
         <Routes>
           <Route
-            path="/*"
+            path="/"
             element={userInfo.isLoggined ? <HomePage /> : <IndexPage />}
           />
-          <Route
-            path="/signin"
-            element={userInfo.isLoggined ? <HomePage /> : <SignInPage />}
-          />
-          <Route
-            path="/signup"
-            element={userInfo.isLoggined ? <HomePage /> : <SignUpPage />}
-          />
+          <Route element={<ProtectRoute />}>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Route>
+
+          <Route path="*" element={<IndexPage />} />
         </Routes>
       </Suspense>
     </div>

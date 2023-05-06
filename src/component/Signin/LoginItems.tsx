@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import checkPassword from "../CheckUserInfo/checkPassword";
 import axios from "axios";
 import checkEmail from "../CheckUserInfo/checkEmail";
@@ -11,6 +11,9 @@ const LoginItems: React.FunctionComponent = () => {
   const getUserInfo = useRef({ email: "", password: "" });
   const userInfo = useUserInfo();
   const URL = `${getProxy()}/auth/signin`;
+  const location = useLocation();
+  const from = location.state?.redirectedFrom || "/";
+
   const submitUserInfo = () => {
     if (
       checkEmail(getUserInfo.current.email) &&
@@ -29,7 +32,7 @@ const LoginItems: React.FunctionComponent = () => {
             userInfo.setIsLoggined(true);
             userInfo.setUserId(res.data.payload.user_id);
             userInfo.setInterests(res.data.payload.interests);
-            navigate("/");
+            navigate(from);
           } else if (res.data.code === 2002) {
             alert("가입되지 않은 이메일 입니다.");
           } else if (res.data.code === 2003) {
