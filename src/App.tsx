@@ -14,7 +14,7 @@ const App: React.FunctionComponent = () => {
       <Suspense fallback={<>로딩중...</>}>
         <Routes>
           <Route
-            path="/"
+            path="/*"
             element={userInfo.isLoggined ? <HomePage /> : <IndexPage />}
           />
           <Route element={<ProtectRoute />}>
