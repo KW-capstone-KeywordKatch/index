@@ -1,37 +1,100 @@
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "../Layout/GridLayout";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import getProxy from "../../State/proxy";
+import { debounce } from "lodash";
+import { sendPostEmailTimeRequest } from "./../API/homeAPI";
 
 const HomeOption: React.FunctionComponent = () => {
   const userInfo = useUserInfo();
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState<string>("");
-  const [newsList, setNewsList] = useState<{ title: string; link: string }[]>([
-    { title: "", link: "" },
+  const [useEmailService, setUseEmailService] = useState(
+    userInfo.email_time.length > 0 ? true : false
+  );
+  const [selectedTime, setSelectedTime] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
   ]);
 
-  const getKeywordNews = () => {
-    axios
-      .get(`${getProxy("/test")}/prototype/${keyword}`)
-      .then((res) => {
-        if (res.data.code === 1) {
-          setNewsList(res.data.payload);
-        } else {
-          setNewsList([]);
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
+  useEffect(() => {
+    userInfo.email_time.forEach(
+      (time) => (selectedTime[(Number(time.slice(0, 2)) - 6) / 3] = true)
+    );
+    setSelectedTime([...selectedTime]);
+  }, []);
+
+  const handleSendEmailTime = useCallback(
+    debounce(
+      () =>
+        sendPostEmailTimeRequest().catch((err) =>
+          alert("서버 저장에 실패했습니다.")
+        ),
+      1000
+    ),
+    []
+  );
+
+  useEffect(() => {
+    userInfo.setEmailTime(
+      ["0630", "0930", "1230", "1530", "1830"].filter(
+        (_, idx) => selectedTime[idx]
+      )
+    );
+
+    handleSendEmailTime();
+  }, [selectedTime]);
+
+  useEffect(() => {
+    if (!useEmailService) {
+      setSelectedTime([false, false, false, false, false]);
+    }
+  }, [useEmailService]);
   return (
     <main className="relative ml-[60px] top-[4em]">
       <GridLayout>
+        <div className="col-span-6">
+          <p className="text-[#767676] text-[0.8em]">
+            이메일 알림을 받을 시간을 설정할 수 있습니다.
+          </p>
+          <div className="col-start-3 col-end-11 w-full flex flex-col items-center mt-4">
+            <p className="font-bold mb-4">
+              이메일 서비스 시간 선택 (다중 선택 가능)
+            </p>
+            <div className="flex items-center w-full justify-around">
+              <button
+                className={`border font-bold px-4 py-2 rounded-[15px] ${
+                  !useEmailService ? "text-black" : "text-[#767676]"
+                }`}
+                onClick={() => setUseEmailService(!useEmailService)}
+              >
+                사용 안함
+              </button>
+              {selectedTime.map((selected, idx) => (
+                <button
+                  key={idx}
+                  className={`border font-bold px-4 py-2 rounded-[15px] duration-200 ${
+                    selected ? " text-black" : "text-[#767676]"
+                  }`}
+                  onClick={() => {
+                    setSelectedTime(
+                      selectedTime.map((item, timeidx) =>
+                        idx === timeidx ? !item : item
+                      )
+                    );
+                    setUseEmailService(true);
+                  }}
+                >{`${
+                  idx * 3 + 6 > 9 ? idx * 3 + 6 : "0" + (idx * 3 + 6)
+                }:30`}</button>
+              ))}
+            </div>
+          </div>
+        </div>
         <button
-          className="col-span-3"
+          className="col-start-10 col-end-13"
           onClick={() => {
             userInfo.setInterests([]);
             userInfo.setToken("");
@@ -42,29 +105,6 @@ const HomeOption: React.FunctionComponent = () => {
         >
           로그아웃
         </button>
-        <div className="col-span-6"></div>
-        <div className="col-span-12 flex flex-col">
-          <input
-            value={keyword}
-            className="p-4 border outline-none"
-            placeholder="테스트 키워드 입력"
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                getKeywordNews();
-              }
-            }}
-          ></input>
-          {newsList.length > 0 ? (
-            newsList.map((news, idx) => (
-              <a href={news.link} key={idx} className="my-[0.5em] font-bold">
-                {news.title}
-              </a>
-            ))
-          ) : (
-            <div>뉴스가 없습니다.</div>
-          )}
-        </div>
       </GridLayout>
     </main>
   );

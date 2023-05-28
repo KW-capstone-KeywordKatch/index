@@ -33,11 +33,14 @@ const HomeKeyword: React.FunctionComponent = () => {
       .patch(
         URL,
         {
-          user_id: userInfo.userId,
+          user_id: userInfo.user_id,
           interest: keyWordList,
         },
         {
           withCredentials: true,
+          headers: {
+            "KK-TOKEN": userInfo.token,
+          },
         }
       )
       .then((res) => {
