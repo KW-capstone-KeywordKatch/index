@@ -16,8 +16,15 @@ module.exports = function (app) {
   );
 
   app.use(
-    createProxyMiddleware("/prototype", {
-      target: "http://13.209.7.194:8000",
+    createProxyMiddleware("/keywords", {
+      target: "http://54.180.152.95:8080",
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/get", {
+      target: "http://13.125.56.155:5001",
       changeOrigin: true,
     })
   );

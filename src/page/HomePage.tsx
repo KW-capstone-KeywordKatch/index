@@ -2,7 +2,7 @@ import HomeNavBar from "./../component/GlobalNavigationBar/HomeNavBar";
 import HomeKeyword from "../component/Home/HomeKeyword";
 import { Routes, Route } from "react-router-dom";
 import HomeTrend from "../component/Home/HomeTrend";
-import HomeFollow from "../component/Home/HomeFollow";
+import HomeFollow from "../component/Home/HomeFollow/HomeFollow";
 
 import HomeOption from "../component/Home/HomeOption";
 

@@ -1,16 +1,15 @@
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import checkPassword from "../CheckUserInfo/checkPassword";
-import axios from "axios";
 import checkEmail from "../CheckUserInfo/checkEmail";
 import { useUserInfo } from "../../State/UserInfo";
-import getProxy from "../../State/proxy";
+import { SignInRequest } from "../API/SignInOut";
 
 const LoginItems: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const getUserInfo = useRef({ email: "", password: "" });
   const userInfo = useUserInfo();
-  const URL = `${getProxy()}/auth/signin`;
+
   const location = useLocation();
   const from = location.state?.redirectedFrom || "/";
 
@@ -19,19 +18,10 @@ const LoginItems: React.FunctionComponent = () => {
       checkEmail(getUserInfo.current.email) &&
       checkPassword(getUserInfo.current.password)
     ) {
-      axios
-        .post(URL, {
-          email: getUserInfo.current.email,
-          password: getUserInfo.current.password,
-        })
+      SignInRequest(getUserInfo.current.email, getUserInfo.current.password)
         .then((res) => {
-          console.log(res.data.payload);
           if (res.data.code === 1000) {
-            axios.defaults.headers.common["KK-TOKEN"] = res.data.payload.token;
-            userInfo.setToken(res.data.payload.token);
-            userInfo.setIsLoggined(true);
-            userInfo.setUserId(res.data.payload.user_id);
-            userInfo.setInterests(res.data.payload.interests);
+            userInfo.setUserInfo({ ...res.data.payload, isLoggined: true });
             navigate(from);
           } else if (res.data.code === 2002) {
             alert("가입되지 않은 이메일 입니다.");

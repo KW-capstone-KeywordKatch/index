@@ -1,16 +1,14 @@
 import GridLayout from "../Layout/GridLayout";
 import useVH from "react-viewport-height";
 import SignInFooter from "../Footer/SignInFooter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import checkEmail from "../CheckUserInfo/checkEmail";
 import checkPassword from "../CheckUserInfo/checkPassword";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import getProxy from "../../State/proxy";
+import { SignUpRequest } from "../API/SignInOut";
 
 const SignUp: React.FunctionComponent = () => {
   const vh = useVH();
-  const URL = `${getProxy()}/user/signup`;
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     nickName: "",
@@ -19,29 +17,35 @@ const SignUp: React.FunctionComponent = () => {
     vaildPassword: "",
   });
 
+  const [useEmailService, setUseEmailService] = useState(true);
+  const [selectedTime, setSelectedTime] = useState([
+    true,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  useEffect(() => {
+    if (!useEmailService) {
+      setSelectedTime([false, false, false, false, false]);
+    }
+  }, [useEmailService]);
   const submitUserInfo = () => {
     if (userInfo.password !== userInfo.vaildPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
     if (checkEmail(userInfo.email) && checkPassword(userInfo.password)) {
-      axios
-        .post(
-          URL,
-          {
-            email: userInfo.email,
-            nickname: userInfo.nickName,
-            password: userInfo.password,
-          },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          alert("회원가입이 완료되었습니다!");
+      SignUpRequest(
+        userInfo.email,
+        userInfo.nickName,
+        userInfo.password,
+        selectedTime,
+        () => {
           navigate("/signin");
-        })
-        .catch((err) => {
-          alert(err);
-        });
+        }
+      );
     }
   };
 
@@ -88,6 +92,39 @@ const SignUp: React.FunctionComponent = () => {
             setUserInfo({ ...userInfo, vaildPassword: e.target.value });
           }}
         ></input>
+        <div className="col-start-3 col-end-11 w-full flex flex-col items-center mt-4">
+          <p className="font-bold mb-4">
+            이메일 서비스 시간 선택 (다중 선택 가능)
+          </p>
+          <div className="flex items-center w-full justify-around">
+            <button
+              className={`border font-bold px-4 py-2 rounded-[15px] ${
+                !useEmailService ? "text-black" : "text-[#767676]"
+              }`}
+              onClick={() => setUseEmailService(!useEmailService)}
+            >
+              사용 안함
+            </button>
+            {selectedTime.map((selected, idx) => (
+              <button
+                key={idx}
+                className={`border font-bold px-4 py-2 rounded-[15px] duration-200 ${
+                  selected ? " text-black" : "text-[#767676]"
+                }`}
+                onClick={() => {
+                  setSelectedTime(
+                    selectedTime.map((item, timeidx) =>
+                      idx === timeidx ? !item : item
+                    )
+                  );
+                  setUseEmailService(true);
+                }}
+              >{`${
+                idx * 3 + 6 > 9 ? idx * 3 + 6 : "0" + (idx * 3 + 6)
+              }:30`}</button>
+            ))}
+          </div>
+        </div>
         <div className=" col-start-2 col-end-12 w-full border-t my-[2em]"></div>
         <div className="col-start-5 col-end-9 w-full">
           <p className="text-[12px] text-[#767676] flex flex-col items-center">
