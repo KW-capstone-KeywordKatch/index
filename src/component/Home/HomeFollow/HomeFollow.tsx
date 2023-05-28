@@ -21,7 +21,7 @@ const HomeFollow: React.FunctionComponent = () => {
           setNewsList({ ...res.data[userInfo.user_id] });
           sessionStorage.setItem("newsList", JSON.stringify(res.data));
         })
-        .catch((err) => {
+        .catch(() => {
           alert("로딩에 실패했습니다.");
         });
     } else {
