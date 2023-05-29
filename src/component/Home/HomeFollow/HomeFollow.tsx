@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { useUserInfo } from "../../../State/UserInfo";
 import GridLayout from "../../Layout/GridLayout";
 import { sendGetMyNewsListRequest } from "../../API/homeAPI";
 import HomeFollowDropDown from "./HomeFollowDropDown";
 
 const HomeFollow: React.FunctionComponent = () => {
-  const userInfo = useUserInfo();
   const [selelctedKeyword, setSelectedKeyword] = useState<string>("");
   const [keywordList, setKeywordList] = useState<string[]>([]);
   const [newsList, setNewsList] = useState<Record<string, []>>({});
@@ -16,22 +14,19 @@ const HomeFollow: React.FunctionComponent = () => {
     if (!storageNewsList) {
       sendGetMyNewsListRequest()
         .then((res) => {
-          setKeywordList(Object.keys(res.data[userInfo.user_id]));
-          setSelectedKeyword(Object.keys(res.data[userInfo.user_id])[0]);
-          setNewsList({ ...res.data[userInfo.user_id] });
+          console.log(res);
+          setKeywordList(Object.keys(res.data));
+          setSelectedKeyword(Object.keys(res.data)[0]);
+          setNewsList({ ...res.data });
           sessionStorage.setItem("newsList", JSON.stringify(res.data));
         })
         .catch(() => {
           alert("로딩에 실패했습니다.");
         });
     } else {
-      setKeywordList(
-        Object.keys(JSON.parse(storageNewsList)[userInfo.user_id])
-      );
-      setSelectedKeyword(
-        Object.keys(JSON.parse(storageNewsList)[userInfo.user_id])[0]
-      );
-      setNewsList({ ...JSON.parse(storageNewsList)[userInfo.user_id] });
+      setKeywordList(Object.keys(JSON.parse(storageNewsList)));
+      setSelectedKeyword(Object.keys(JSON.parse(storageNewsList))[0]);
+      setNewsList({ ...JSON.parse(storageNewsList) });
     }
   }, []);
 
@@ -79,7 +74,7 @@ const HomeFollow: React.FunctionComponent = () => {
               <img
                 alt=""
                 src={news.image}
-                className="h-[15em]"
+                className="max-w-[200px] max-h-[200px]"
                 style={{
                   margin: idx % 2 ? "0px 2em 0px 0px" : "0px 0px 0px 2em",
                 }}
