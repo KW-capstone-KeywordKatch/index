@@ -17,7 +17,9 @@ export const sendGetHotKeywordRequest = async () => {
 };
 
 export const sendGetMyNewsListRequest = async () => {
-  return baseAxios.get(`get/articles/${2}`);
+  return axios.get(
+    `${getProxy("/publish")}/get/articles/${useUserInfo.getState().user_id}`
+  );
 };
 
 export const sendPostEmailTimeRequest = async () => {

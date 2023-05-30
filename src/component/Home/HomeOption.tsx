@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback } from "react";
 import { useUserInfo } from "../../State/UserInfo";
 import GridLayout from "../Layout/GridLayout";
@@ -55,11 +56,11 @@ const HomeOption: React.FunctionComponent = () => {
   return (
     <main className="relative ml-[60px] top-[4em]">
       <GridLayout>
-        <div className="col-span-6">
+        <div className="col-span-9">
           <p className="text-[#767676] text-[0.8em]">
             이메일 알림을 받을 시간을 설정할 수 있습니다.
           </p>
-          <div className="col-start-3 col-end-11 w-full flex flex-col items-center mt-4">
+          <div className="w-full flex flex-col items-center mt-4">
             <p className="font-bold mb-4">
               이메일 서비스 시간 선택 (다중 선택 가능)
             </p>
@@ -101,6 +102,7 @@ const HomeOption: React.FunctionComponent = () => {
             userInfo.setUserId("");
             userInfo.setIsLoggined(false);
             navigate("/");
+            sessionStorage.clear();
           }}
         >
           로그아웃

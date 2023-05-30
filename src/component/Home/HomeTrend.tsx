@@ -1,4 +1,3 @@
-import axios from "axios";
 import GridLayout from "../Layout/GridLayout";
 import { useEffect } from "react";
 import { useState } from "react";

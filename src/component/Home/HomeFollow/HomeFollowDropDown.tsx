@@ -1,6 +1,5 @@
 import { AnimatePresence, motion, MotionProps, Variants } from "framer-motion";
 import { useState } from "react";
-import HomeFollow from "./HomeFollow";
 import ArrowSvg from "../../Icon/Svg/ArrowSvg";
 
 const menu: Variants = {
