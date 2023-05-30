@@ -18,8 +18,12 @@ export const sendGetHotKeywordRequest = async () => {
 
 export const sendGetMyNewsListRequest = async () => {
   return axios.get(
-    `${getProxy("/publish")}/get/articles/${useUserInfo.getState().user_id}`
+    `${getProxy("/publish")}/articles/${useUserInfo.getState().user_id}`
   );
+};
+
+export const sendGetSearchResultRequest = async (keyword: string) => {
+  return axios.get(`${getProxy("/prototype")}/prototype/${keyword}`);
 };
 
 export const sendPostEmailTimeRequest = async () => {

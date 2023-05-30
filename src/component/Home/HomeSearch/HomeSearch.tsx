@@ -1,58 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GridLayout from "../../Layout/GridLayout";
-import { sendGetMyNewsListRequest } from "../../API/homeAPI";
-import HomeFollowDropDown from "./HomeFollowDropDown";
+import { sendGetSearchResultRequest } from "../../API/homeAPI";
+import { useCallback } from "react";
+import { debounce } from "lodash";
 
-const HomeFollow: React.FunctionComponent = () => {
-  const [selelctedKeyword, setSelectedKeyword] = useState<string>("");
-  const [keywordList, setKeywordList] = useState<string[]>([]);
-  const [newsList, setNewsList] = useState<Record<string, []>>({});
+const HomeSearch: React.FunctionComponent = () => {
+  const [newsList, setNewsList] = useState<Record<string, string>[]>([]);
 
-  useEffect(() => {
-    const storageNewsList = sessionStorage.getItem("newsList");
-    if (!storageNewsList) {
-      sendGetMyNewsListRequest()
-        .then((res) => {
-          console.log(res);
-          setKeywordList(Object.keys(res.data));
-          setSelectedKeyword(Object.keys(res.data)[0]);
-          setNewsList({ ...res.data });
-          sessionStorage.setItem("newsList", JSON.stringify(res.data));
-        })
-        .catch(() => {
-          alert("로딩에 실패했습니다.");
-        });
-    } else {
-      setKeywordList(Object.keys(JSON.parse(storageNewsList)));
-      setSelectedKeyword(Object.keys(JSON.parse(storageNewsList))[0]);
-      setNewsList({ ...JSON.parse(storageNewsList) });
-    }
-  }, []);
+  const handleSearch = useCallback(
+    debounce((keyword: string) => {
+      console.log("handleSearch");
+      sendGetSearchResultRequest(keyword).then((res) => {
+        if (res.data.payload) {
+          setNewsList([...res.data.payload]);
+        }
+      });
+    }, 500),
+    []
+  );
 
   return (
     <main className="relative ml-[60px] top-[4em]">
       <GridLayout>
         <div className="relative col-start-1 col-end-13 w-full flex flex-col">
-          <p className="text-[2em] font-bold">팔로우 중인 뉴스</p>
+          <p className="text-[2em] font-bold">뉴스 검색</p>
           <p className="text-[#767676] text-[0.8em]">
-            저장한 키워드, 언론사를 기반으로 뉴스를 추천해드립니다.
+            쉽고 편하게 뉴스를 검색하세요.
           </p>
-          <HomeFollowDropDown
-            selectedKeyword={selelctedKeyword}
-            keywordList={keywordList}
-            onClick={(selectedKeyword) => setSelectedKeyword(selectedKeyword)}
-          />
         </div>
-        {Object.keys(newsList).length > 0 ? (
+        <input
+          placeholder="키워드를 입력하세요."
+          onChange={(e) => {
+            if (e.target.value.length > 0) {
+              handleSearch(e.target.value);
+            } else {
+              setNewsList([]);
+            }
+          }}
+          className="my-[2em] px-4 py-2 outline-0 border rounded-[10px] col-start-1 col-end-7 w-full"
+        ></input>
+        {newsList.length > 0 ? (
           <>
-            {newsList[selelctedKeyword]?.map((news: any, idx) => (
+            {newsList?.map((news: any, idx) => (
               <div
                 key={idx}
                 className="col-start-1 col-end-13 w-full flex flex-row items-center cursor-pointer"
-                style={{
-                  flexDirection: idx % 2 ? "row-reverse" : "row",
-                }}
                 onClick={() =>
                   window.open(news.link, "_blank", "noopener, noreferrer")
                 }
@@ -92,4 +85,4 @@ const HomeFollow: React.FunctionComponent = () => {
   );
 };
 
-export default HomeFollow;
+export default HomeSearch;

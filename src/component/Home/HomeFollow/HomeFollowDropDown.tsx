@@ -44,6 +44,7 @@ const HomeFollowDropDown: React.FunctionComponent<HomeFollowDropDownProps> = ({
   onClick,
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
+  if (keywordList.length === 0) return <></>;
   return (
     <motion.div
       className="absolute flex flex-col right-0"

@@ -23,8 +23,15 @@ module.exports = function (app) {
   );
 
   app.use(
-    createProxyMiddleware("/get", {
+    createProxyMiddleware("/articles", {
       target: "http://13.125.56.155:5001",
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/prototype", {
+      target: "http://13.209.7.194:8000/",
       changeOrigin: true,
     })
   );
