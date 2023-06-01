@@ -6,6 +6,7 @@ export interface news {
   content: string;
   image: string;
   link: string;
+  press: string;
 }
 
 interface NewsItemProps {
@@ -29,7 +30,9 @@ const NewsItem = forwardRef(
       >
         <div>
           <p className="font-bold text-[1.5em]">{news.title}</p>
-          <p className="text-[#767676] text-[0.8em]">{news.company}</p>
+          <p className="text-[#767676] text-[0.8em]">
+            {news.company || news.press}
+          </p>
           <p
             className="text-[#767676] text-[0.8em] w-full overflow-hidden "
             style={{
