@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import GridLayout from "../../Layout/GridLayout";
 import { sendGetMyNewsListRequest } from "../../API/homeAPI";
 import HomeFollowDropDown from "./HomeFollowDropDown";
+import NewsItem, { news } from "./NewsItem";
 
 const HomeFollow: React.FunctionComponent = () => {
   const [selelctedKeyword, setSelectedKeyword] = useState<string>("");
@@ -46,40 +47,8 @@ const HomeFollow: React.FunctionComponent = () => {
         </div>
         {Object.keys(newsList).length > 0 ? (
           <>
-            {newsList[selelctedKeyword]?.map((news: any, idx) => (
-              <div
-                key={idx}
-                className="col-start-1 col-end-13 w-full flex flex-row items-center cursor-pointer"
-                style={{
-                  flexDirection: idx % 2 ? "row-reverse" : "row",
-                }}
-                onClick={() =>
-                  window.open(news.link, "_blank", "noopener, noreferrer")
-                }
-              >
-                <div>
-                  <p className="font-bold text-[1.5em]">{news.title}</p>
-                  <p className="text-[#767676] text-[0.8em]">{news.company}</p>
-                  <p
-                    className="text-[#767676] text-[0.8em] w-full overflow-hidden "
-                    style={{
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      display: "-webkit-box",
-                    }}
-                  >
-                    {news.content}
-                  </p>
-                </div>
-                <img
-                  alt=""
-                  src={news.image}
-                  className="max-w-[200px] max-h-[200px]"
-                  style={{
-                    margin: idx % 2 ? "0px 2em 0px 0px" : "0px 0px 0px 2em",
-                  }}
-                ></img>
-              </div>
+            {newsList[selelctedKeyword]?.map((news: news, idx) => (
+              <NewsItem news={news} key={idx} idx={idx} />
             ))}
           </>
         ) : (

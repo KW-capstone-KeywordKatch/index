@@ -28,13 +28,7 @@ const HomeOption: React.FunctionComponent = () => {
   }, []);
 
   const handleSendEmailTime = useCallback(
-    debounce(
-      () =>
-        sendPostEmailTimeRequest().catch((err) =>
-          alert("서버 저장에 실패했습니다.")
-        ),
-      1000
-    ),
+    debounce(() => sendPostEmailTimeRequest(), 1000),
     []
   );
 

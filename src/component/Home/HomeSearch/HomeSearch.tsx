@@ -1,12 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import GridLayout from "../../Layout/GridLayout";
 import { sendGetSearchResultRequest } from "../../API/homeAPI";
 import { useCallback } from "react";
 import { debounce } from "lodash";
+import NewsItem from "../HomeFollow/NewsItem";
 
 const HomeSearch: React.FunctionComponent = () => {
   const [newsList, setNewsList] = useState<Record<string, string>[]>([]);
+  const [index, setIndex] = useState(4);
+  const observer = useRef<IntersectionObserver>();
+
+  const onObserverChanged = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+      observer.current = new IntersectionObserver(
+        (e) => {
+          if (e[0].isIntersecting) {
+            setIndex(index + 4);
+          }
+        },
+        { threshold: 0.4 }
+      );
+      if (node) {
+        observer.current.observe(node);
+      }
+    },
+    [index, observer]
+  );
 
   const handleSearch = useCallback(
     debounce((keyword: string) => {
@@ -42,38 +65,16 @@ const HomeSearch: React.FunctionComponent = () => {
         ></input>
         {newsList.length > 0 ? (
           <>
-            {newsList?.map((news: any, idx) => (
-              <div
-                key={idx}
-                className="col-start-1 col-end-13 w-full flex flex-row items-center cursor-pointer"
-                onClick={() =>
-                  window.open(news.link, "_blank", "noopener, noreferrer")
-                }
-              >
-                <div>
-                  <p className="font-bold text-[1.5em]">{news.title}</p>
-                  <p className="text-[#767676] text-[0.8em]">{news.company}</p>
-                  <p
-                    className="text-[#767676] text-[0.8em] w-full overflow-hidden "
-                    style={{
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      display: "-webkit-box",
-                    }}
-                  >
-                    {news.content}
-                  </p>
-                </div>
-                <img
-                  alt=""
-                  src={news.image}
-                  className="max-w-[200px] max-h-[200px]"
-                  style={{
-                    margin: idx % 2 ? "0px 2em 0px 0px" : "0px 0px 0px 2em",
-                  }}
-                ></img>
-              </div>
-            ))}
+            {newsList
+              ?.filter((_, idx) => idx <= index)
+              .map((news: any, idx) => (
+                <NewsItem
+                  ref={idx === index - 1 ? onObserverChanged : null}
+                  news={news}
+                  key={idx}
+                  idx={idx}
+                />
+              ))}
           </>
         ) : (
           <div className="col-start-1 col-end-13 flex flex-col items-center justify-center mt-8 text-[2em] ">

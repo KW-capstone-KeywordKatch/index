@@ -37,7 +37,7 @@ const HomeNavBar: React.FunctionComponent = () => {
         />
         <ListSvg
           className="my-[0.7em] cursor-pointer"
-          fill={location === "keyword" ? "black" : "#707070"}
+          fill={location === "search" ? "black" : "#707070"}
           onClick={() => navigate("/search")}
         />
         <OptionSvg
