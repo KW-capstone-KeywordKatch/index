@@ -6,7 +6,7 @@
 
 [[redirects]]
   from = "/publish/*"
-  to = "http://54.66.54.30/:splat"
+  to = "http://54.66.54.30:5001/:splat"
   status = 200
   force = true
 
