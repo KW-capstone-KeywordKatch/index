@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     app.use(
         createProxyMiddleware("/articles", {
-            target: "http://13.125.160.125:5001",
+            target: "http://54.66.54.30:5001",
             changeOrigin: true,
         })
     );
